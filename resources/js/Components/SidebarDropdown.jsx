@@ -16,7 +16,7 @@ export default function SidebarDropdown({ title, icon, children, active = false,
         <div className={`mb-1 ${isFolded ? 'group relative' : ''}`}>
             <button
                 onClick={handleClick}
-                className="w-full flex items-center justify-between py-3 px-4 text-sm font-medium rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white group-hover:bg-slate-800 group-hover:text-white transition-all duration-300"
+                className="w-full flex items-center justify-between py-3 px-4 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white group-hover:bg-slate-100 dark:group-hover:bg-slate-800/50 group-hover:text-slate-900 dark:group-hover:text-white transition-all duration-300"
             >
                 <div className="flex items-center min-w-0">
                     {icon && (
@@ -43,8 +43,8 @@ export default function SidebarDropdown({ title, icon, children, active = false,
             {/* Submenu items */}
             {isFolded ? (
                 <div className="absolute left-full top-0 hidden group-hover:block z-50 w-[13rem] pl-2">
-                    <div className="rounded-xl bg-slate-900 p-2 shadow-2xl border border-white/10">
-                        <div className="mb-2 px-3 pt-2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="rounded-xl bg-white dark:bg-slate-900 p-2 shadow-2xl border border-slate-200 dark:border-white/10">
+                        <div className="mb-2 px-3 pt-2 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                             {title}
                         </div>
                         <div className="space-y-1">
