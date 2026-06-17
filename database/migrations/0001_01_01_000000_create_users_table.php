@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('region')->nullable();
             $table->string('unit')->nullable();
+            $table->json('multiunit')->nullable();
+            $table->string('jabatan')->nullable();
             $table->string('roles')->nullable();
             $table->string('nowa')->nullable();
             $table->string('password');
