@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\MenuLogdoc;
 
-class DOCController extends Controller
+class DocController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class DOCController extends Controller
     {
         $logdocs = MenuLogdoc::all();
 
-        return Inertia::render('Operation/DOC/Index', [
+        return Inertia::render('Operation/Doc/Index', [
             'logdocs' => $logdocs
         ]);
     }

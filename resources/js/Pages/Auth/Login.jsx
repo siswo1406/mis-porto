@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
+import ThemeToggle from '@/Components/ThemeToggle';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -23,29 +24,34 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-900 relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 relative overflow-hidden transition-colors duration-300">
             <Head title="Log in - MIS Portal" />
 
+            {/* Theme Toggle Top Right */}
+            <div className="absolute top-6 right-6 z-50">
+                <ThemeToggle className="bg-white/80 dark:bg-slate-800/80 px-3 py-2 rounded-full shadow-lg backdrop-blur-sm border border-slate-200 dark:border-slate-700" />
+            </div>
+
             {/* Dynamic Background Elements */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-blue-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }}></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-indigo-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '10s' }}></div>
+            <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-blue-600/10 dark:bg-blue-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }}></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-indigo-600/10 dark:bg-indigo-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '10s' }}></div>
             
-            <div className="w-full max-w-md p-8 relative z-10">
+            <div className="w-full px-4 sm:px-8 py-10 relative z-10 flex flex-col items-center">
                 {/* Logo & Title Area */}
-                <div className="text-center mb-10">
+                <div className="text-center mb-10 w-full">
                     <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30 mb-6 transform transition hover:scale-105 duration-300">
                         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                         </svg>
                     </div>
-                    <h1 className="text-3xl font-bold text-white tracking-tight">Management Information System</h1>
-                    <p className="text-slate-400 mt-2 text-sm">Secure Portal Access</p>
+                    <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 dark:text-white tracking-tight whitespace-nowrap">Management Information System</h1>
+                    <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">Sistem Pelaporan Terpadu</p>
                 </div>
 
                 {/* Glassmorphism Card */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+                <div className="w-full max-w-md bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl shadow-xl dark:shadow-2xl p-8 relative overflow-hidden transition-colors">
                     {/* Subtle top reflection */}
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/40 dark:via-white/20 to-transparent"></div>
 
                     {status && (
                         <div className="mb-4 text-sm font-medium text-emerald-400 bg-emerald-400/10 p-3 rounded-lg border border-emerald-400/20 text-center">
@@ -55,40 +61,30 @@ export default function Login({ status, canResetPassword }) {
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="group">
-                            <InputLabel htmlFor="nik" value="Nomor Induk Karyawan (NIK)" className="text-slate-300 group-focus-within:text-blue-400 transition-colors" />
+                            <InputLabel htmlFor="nik" value="Username" className="text-slate-600 dark:text-slate-300 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                             <TextInput
                                 id="nik"
                                 type="text"
                                 name="nik"
                                 value={data.nik}
-                                className="mt-1 block w-full bg-slate-800/50 border-slate-700 text-white placeholder-slate-500 focus:border-blue-500 focus:ring focus:ring-blue-500/20 transition-all rounded-lg"
+                                className="mt-1 block w-full bg-white dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-blue-500 focus:ring focus:ring-blue-500/20 transition-all rounded-lg shadow-sm dark:shadow-none"
                                 autoComplete="username"
                                 isFocused={true}
-                                placeholder="1234.MTK.0123"
+                                placeholder="contoh_username"
                                 onChange={(e) => setData('nik', e.target.value)}
                             />
                             <InputError message={errors.nik} className="mt-2 text-red-400" />
                         </div>
 
                         <div className="group">
-                            <div className="flex justify-between items-center">
-                                <InputLabel htmlFor="password" value="Password" className="text-slate-300 group-focus-within:text-blue-400 transition-colors" />
-                                {canResetPassword && (
-                                    <Link
-                                        href={route('password.request')}
-                                        className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
-                                    >
-                                        Forgot password?
-                                    </Link>
-                                )}
-                            </div>
+                            <InputLabel htmlFor="password" value="Password" className="text-slate-600 dark:text-slate-300 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                             <div className="relative mt-1">
                                 <TextInput
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}
                                     name="password"
                                     value={data.password}
-                                    className="block w-full bg-slate-800/50 border-slate-700 text-white placeholder-slate-500 focus:border-blue-500 focus:ring focus:ring-blue-500/20 transition-all rounded-lg pr-10"
+                                    className="block w-full bg-white dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-blue-500 focus:ring focus:ring-blue-500/20 transition-all rounded-lg shadow-sm dark:shadow-none pr-10"
                                     autoComplete="current-password"
                                     placeholder="••••••••"
                                     onChange={(e) => setData('password', e.target.value)}
@@ -113,18 +109,27 @@ export default function Login({ status, canResetPassword }) {
                             <InputError message={errors.password} className="mt-2 text-red-400" />
                         </div>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-between">
                             <label className="flex items-center cursor-pointer group">
                                 <Checkbox
                                     name="remember"
                                     checked={data.remember}
                                     onChange={(e) => setData('remember', e.target.checked)}
-                                    className="bg-slate-800 border-slate-600 checked:bg-blue-600 focus:ring-blue-500/30 rounded"
+                                    className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 checked:bg-blue-600 focus:ring-blue-500/30 rounded"
                                 />
-                                <span className="ms-2 text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
-                                    Keep me securely logged in
+                                <span className="ms-2 text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+                                    Tetap masuk
                                 </span>
                             </label>
+
+                            {canResetPassword && (
+                                <Link
+                                    href={route('password.request')}
+                                    className="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                                >
+                                    Lupa password?
+                                </Link>
+                            )}
                         </div>
 
                         <PrimaryButton 
@@ -136,7 +141,7 @@ export default function Login({ status, canResetPassword }) {
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                            ) : 'Authenticate Session'}
+                            ) : 'Masuk'}
                         </PrimaryButton>
                     </form>
                 </div>

@@ -13,7 +13,7 @@ class MenuLogdocSeeder extends Seeder
     public function run(): void
     {
         \App\Models\MenuLogdoc::create([
-            'name' => 'PO DOC',
+            'name' => 'Pemesanan Bibit Ayam',
             'link' => '#', // diarahin ke # dulu sementara karena route spesifiknya belum dibuat
             'akses' => 'ADMINISTRATOR,SUPERVISOR,ADMIN LOGISTIK',
             'kodemenu' => 'DOC006',

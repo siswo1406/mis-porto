@@ -5,20 +5,16 @@ export default function Dashboard() {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
+                <h2 className="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
+                    Beranda
                 </h2>
             }
         >
-            <Head title="Dashboard" />
+            <Head title="Beranda" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
+            <div className="overflow-hidden bg-white dark:bg-slate-900 shadow-sm sm:rounded-2xl border border-slate-200 dark:border-slate-800 transition-colors duration-200">
+                <div className="p-6 text-slate-900 dark:text-slate-200">
+                    Anda berhasil masuk ke dalam sistem!
                 </div>
             </div>
         </AuthenticatedLayout>
