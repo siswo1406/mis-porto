@@ -25,7 +25,7 @@ export default function Login({ status, canResetPassword }) {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 relative overflow-hidden transition-colors duration-300">
-            <Head title="Log in - MIS Portal" />
+            <Head title="Masuk - MIS Portal" />
 
             {/* Theme Toggle Top Right */}
             <div className="absolute top-6 right-6 z-50">
@@ -61,7 +61,7 @@ export default function Login({ status, canResetPassword }) {
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="group">
-                            <InputLabel htmlFor="nik" value="Username" className="text-slate-600 dark:text-slate-300 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
+                            <InputLabel htmlFor="nik" value="Nama Pengguna (NIK)" className="text-slate-600 dark:text-slate-300 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                             <TextInput
                                 id="nik"
                                 type="text"
@@ -70,14 +70,14 @@ export default function Login({ status, canResetPassword }) {
                                 className="mt-1 block w-full bg-white dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-blue-500 focus:ring focus:ring-blue-500/20 transition-all rounded-lg shadow-sm dark:shadow-none"
                                 autoComplete="username"
                                 isFocused={true}
-                                placeholder="contoh_username"
+                                placeholder="contoh: 1978.MTK.1222"
                                 onChange={(e) => setData('nik', e.target.value)}
                             />
                             <InputError message={errors.nik} className="mt-2 text-red-400" />
                         </div>
 
                         <div className="group">
-                            <InputLabel htmlFor="password" value="Password" className="text-slate-600 dark:text-slate-300 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
+                            <InputLabel htmlFor="password" value="Kata Sandi" className="text-slate-600 dark:text-slate-300 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                             <div className="relative mt-1">
                                 <TextInput
                                     id="password"
@@ -127,7 +127,7 @@ export default function Login({ status, canResetPassword }) {
                                     href={route('password.request')}
                                     className="text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
                                 >
-                                    Lupa password?
+                                    Lupa kata sandi?
                                 </Link>
                             )}
                         </div>
@@ -147,7 +147,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
                 
                 <div className="mt-8 text-center text-xs text-slate-500">
-                    Powered by LIRT Stack & Laravel Octane
+                    Didukung oleh LIRT Stack & Laravel Octane
                 </div>
             </div>
         </div>

@@ -23,6 +23,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('master')->name('master.')->group(function () {
         Route::get('/users', [\App\Http\Controllers\Master\UserController::class, 'index'])->name('users.index');
         Route::post('/users', [\App\Http\Controllers\Master\UserController::class, 'store'])->name('users.store');
+        Route::put('/users/{user}', [\App\Http\Controllers\Master\UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [\App\Http\Controllers\Master\UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/users/{user}/generate', [\App\Http\Controllers\Master\UserController::class, 'generate'])->name('users.generate');
     });
 
     Route::prefix('operation')->name('operation.')->group(function () {
