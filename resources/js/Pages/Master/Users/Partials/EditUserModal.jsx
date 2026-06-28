@@ -1,8 +1,9 @@
 import { useForm } from '@inertiajs/react';
-import { Fragment, useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
-export default function AddUserModal({ isOpen, onClose, regions = [], units = [], jabatans = [] }) {
-    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+export default function EditUserModal({ isOpen, onClose, user, regions = [], units = [], jabatans = [] }) {
+    const { data, setData, put, processing, errors, reset, clearErrors, transform } = useForm({
         name: '',
         nik: '',
         email: '',
@@ -13,22 +14,75 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
         multiunit: '',
         jabatan: '',
         password: '',
+        confirm_password: '',
     });
+
+    useEffect(() => {
+        if (user && isOpen) {
+            let parsedMultiunit = '';
+            if (user.multiunit) {
+                try {
+                    parsedMultiunit = JSON.parse(user.multiunit).join(', ');
+                } catch (e) {
+                    parsedMultiunit = '';
+                }
+            }
+            
+            setData({
+                name: user.name || '',
+                nik: user.nik || '',
+                email: user.email || '',
+                nowa: user.nowa || '',
+                roles: user.roles || '',
+                region: user.region || '',
+                unit: user.unit || '',
+                multiunit: parsedMultiunit,
+                jabatan: user.jabatan || '',
+                password: '',
+                confirm_password: '',
+            });
+        }
+    }, [user, isOpen]);
+
+    transform((data) => ({
+        ...data,
+        multiunit: typeof data.multiunit === 'string' && data.multiunit.trim() !== '' 
+            ? data.multiunit.split(',').map(item => item.trim()) 
+            : null,
+    }));
 
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        const submitData = { ...data };
-        if (typeof submitData.multiunit === 'string' && submitData.multiunit.trim() !== '') {
-            submitData.multiunit = submitData.multiunit.split(',').map(item => item.trim());
-        } else {
-            submitData.multiunit = null;
+        if (data.nik.indexOf(' ') >= 0) {
+            Swal.fire({ icon: 'error', title: 'Format NIK Salah', text: 'NIK tidak boleh mengandung spasi!' });
+            return;
         }
 
-        post(route('master.users.store'), {
-            data: submitData,
+        if (data.password || data.confirm_password) {
+            if (data.password !== data.confirm_password) {
+                Swal.fire({ icon: 'error', title: 'Validasi Gagal', text: 'Password dan Konfirmasi Password tidak sesuai!' });
+                return;
+            }
+            const hasUpperCase = /[A-Z]/.test(data.password);
+            const hasLowerCase = /[a-z]/.test(data.password);
+            const hasNumbers = /\d/.test(data.password);
+            const hasSpecialChar = /[!@#\$%\^&\*]/.test(data.password);
+
+            if (data.password.length < 8 || !hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChar) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Lemah',
+                    html: 'Password harus minimal 8 karakter dan mengandung:<br>- Huruf Besar<br>- Huruf Kecil<br>- Angka<br>- Karakter Khusus (!@#$%^&*)'
+                });
+                return;
+            }
+        }
+
+        put(route('master.users.update', user.id), {
             onSuccess: () => {
                 closeModal();
+                Swal.fire({ icon: 'success', title: 'Berhasil', text: 'Data pengguna berhasil diperbarui!', timer: 1500, showConfirmButton: false });
             },
         });
     };
@@ -49,32 +103,28 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen]);
 
-    if (!isOpen) return null;
+    if (!isOpen || !user) return null;
 
     const rolesList = ['admin', 'pusat', 'region', 'sr', 'user'];
-
     const filteredUnits = data.region ? units.filter(u => u.region === data.region) : units;
 
     return (
         <div className="fixed inset-0 z-[100] overflow-y-auto">
-            {/* Backdrop */}
             <div className="fixed inset-0 bg-slate-900/75 dark:bg-slate-950/80 backdrop-blur-sm transition-opacity"></div>
 
             <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0 relative z-10" onMouseDown={closeModal}>
                 <div className="relative transform overflow-hidden rounded-2xl bg-white dark:bg-slate-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl border border-slate-200 dark:border-slate-800" onMouseDown={(e) => e.stopPropagation()}>
                     <div className="bg-white dark:bg-slate-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border-b border-slate-100 dark:border-slate-800 transition-colors">
                         <div className="sm:flex sm:items-start">
-                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/50 sm:mx-0 sm:h-10 sm:w-10">
-                                <svg className="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-                                </svg>
+                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/50 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg className="h-6 w-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </div>
                             <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                 <h3 className="text-lg font-semibold leading-6 text-slate-900 dark:text-slate-100">
-                                    Tambah Pengguna Baru
+                                    Edit Pengguna
                                 </h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                    Isi data form di bawah ini untuk mendaftarkan pengguna baru ke sistem.
+                                    Ubah data formulir di bawah ini untuk mengedit data pengguna.
                                 </p>
                             </div>
                         </div>
@@ -82,15 +132,16 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
 
                     <form onSubmit={handleSubmit}>
                         <div className="bg-slate-50 dark:bg-slate-900/50 px-6 py-6 max-h-[60vh] overflow-y-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 [&_label]:block [&_label]:text-sm [&_label]:font-medium [&_label]:text-slate-700 dark:[&_label]:text-slate-300 [&_input]:mt-1 [&_input]:block [&_input]:w-full [&_input]:rounded-lg [&_input]:border-slate-300 dark:[&_input]:border-slate-700 [&_input]:bg-white dark:[&_input]:bg-slate-800 [&_input]:text-slate-900 dark:[&_input]:text-slate-100 [&_input]:shadow-sm focus:[&_input]:border-blue-500 focus:[&_input]:ring-blue-500 sm:[&_input]:text-sm transition-colors [&_select]:mt-1 [&_select]:block [&_select]:w-full [&_select]:rounded-lg [&_select]:border-slate-300 dark:[&_select]:border-slate-700 [&_select]:bg-white dark:[&_select]:bg-slate-800 [&_select]:text-slate-900 dark:[&_select]:text-slate-100 [&_select]:shadow-sm focus:[&_select]:border-blue-500 focus:[&_select]:ring-blue-500 sm:[&_select]:text-sm">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 [&_label]:block [&_label]:text-sm [&_label]:font-medium [&_label]:text-slate-700 dark:[&_label]:text-slate-300 [&_input]:mt-1 [&_input]:block [&_input]:w-full [&_input]:rounded-lg [&_input]:border-slate-300 dark:[&_input]:border-slate-700 [&_input]:bg-white dark:[&_input]:bg-slate-800 [&_input]:text-slate-900 dark:[&_input]:text-slate-100 [&_input]:shadow-sm focus:[&_input]:border-orange-500 focus:[&_input]:ring-orange-500 sm:[&_input]:text-sm transition-colors [&_select]:mt-1 [&_select]:block [&_select]:w-full [&_select]:rounded-lg [&_select]:border-slate-300 dark:[&_select]:border-slate-700 [&_select]:bg-white dark:[&_select]:bg-slate-800 [&_select]:text-slate-900 dark:[&_select]:text-slate-100 [&_select]:shadow-sm focus:[&_select]:border-orange-500 focus:[&_select]:ring-orange-500 sm:[&_select]:text-sm">
+                                
                                 <div className="md:col-span-2">
                                     <h4 className="font-semibold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2 mb-2">Identitas Pengguna</h4>
                                 </div>
 
                                 <div>
                                     <label>Nama Lengkap *</label>
-                                    <input type="text" value={data.name} onChange={e => setData('name', e.target.value)}
-                                        placeholder="Cth: Ahmad Budi" required />
+                                    <input type="text" value={data.name} onChange={e => setData('name', e.target.value.toUpperCase())}
+                                        placeholder="Cth: AHMAD BUDI" required />
                                     {errors.name && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.name}</p>}
                                 </div>
 
@@ -99,19 +150,6 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
                                     <input type="text" value={data.nik} onChange={e => setData('nik', e.target.value)}
                                         placeholder="Cth: 1234.MTK.01" required />
                                     {errors.nik && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.nik}</p>}
-                                </div>
-
-                                <div>
-                                    <label>Email</label>
-                                    <input type="email" value={data.email} onChange={e => setData('email', e.target.value)}
-                                        placeholder="opsional@ptmjl.co.id" />
-                                    {errors.email && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>}
-                                </div>
-
-                                <div>
-                                    <label>No. WhatsApp</label>
-                                    <input type="text" value={data.nowa} onChange={e => setData('nowa', e.target.value)}
-                                        placeholder="Cth: 08123456789" />
                                 </div>
 
                                 <div>
@@ -130,13 +168,26 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
                                     </select>
                                 </div>
 
+                                <div>
+                                    <label>Email</label>
+                                    <input type="email" value={data.email} onChange={e => setData('email', e.target.value)}
+                                        placeholder="opsional@ptmjl.co.id" />
+                                    {errors.email && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>}
+                                </div>
+
+                                <div>
+                                    <label>No. WhatsApp</label>
+                                    <input type="text" value={data.nowa} onChange={e => setData('nowa', e.target.value)}
+                                        placeholder="Cth: 08123456789" />
+                                </div>
+
                                 <div className="md:col-span-2 mt-4">
                                     <h4 className="font-semibold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2 mb-2">Lokasi & Hak Akses</h4>
                                 </div>
 
                                 <div>
-                                    <label>Region</label>
-                                    <select value={data.region} onChange={e => setData('region', e.target.value)}>
+                                    <label>Region *</label>
+                                    <select value={data.region} onChange={e => setData('region', e.target.value)} required>
                                         <option value="">-- Pilih Region --</option>
                                         <option value="MJL">PT MUSTIKA JAYA LESTARI (MJL)</option>
                                         {regions.map(r => <option key={r.koderegion} value={r.koderegion}>{r.namaregion} ({r.koderegion})</option>)}
@@ -144,8 +195,8 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
                                 </div>
 
                                 <div>
-                                    <label>Unit Utama</label>
-                                    <select value={data.unit} onChange={e => setData('unit', e.target.value)}
+                                    <label>Unit Utama *</label>
+                                    <select value={data.unit} onChange={e => setData('unit', e.target.value)} required
                                         disabled={!data.region && units.length > 0}>
                                         <option value="">-- Pilih Unit --</option>
                                         {data.region === 'MJL' && <option value="HO">HEAD OFFICE (HO)</option>}
@@ -157,17 +208,22 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
                                     <label>Multi Unit</label>
                                     <input type="text" value={data.multiunit} onChange={e => setData('multiunit', e.target.value.toUpperCase())}
                                         placeholder="Pemisah koma. Cth: HO, SLG, GKD" />
-                                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Isi jika pengguna memiliki lebih dari 1 unit tanggung jawab.</p>
+                                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Pilih unit tambahan jika user butuh banyak akses unit.</p>
                                 </div>
 
                                 <div className="md:col-span-2 mt-4">
                                     <h4 className="font-semibold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2 mb-2">Keamanan Akun</h4>
                                 </div>
 
-                                <div className="md:col-span-2">
-                                    <label>Password</label>
+                                <div>
+                                    <label>Password Baru</label>
                                     <input type="password" value={data.password} onChange={e => setData('password', e.target.value)}
-                                        placeholder="Kosongkan untuk menggunakan password default (Mustika@Tahun)" />
+                                        placeholder="Kosongkan jika tidak ingin diubah" />
+                                </div>
+                                <div>
+                                    <label>Konfirmasi Password Baru</label>
+                                    <input type="password" value={data.confirm_password} onChange={e => setData('confirm_password', e.target.value)}
+                                        placeholder="Ulangi password baru" />
                                 </div>
                             </div>
                         </div>
@@ -176,9 +232,9 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex w-full justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:opacity-50 sm:ml-3 sm:w-auto transition-colors"
+                                className="inline-flex w-full justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 disabled:opacity-50 sm:ml-3 sm:w-auto transition-colors"
                             >
-                                {processing ? 'Menyimpan...' : 'Simpan Data'}
+                                {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                             </button>
                             <button
                                 type="button"

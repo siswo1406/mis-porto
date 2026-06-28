@@ -4,18 +4,81 @@ import Pagination from '@/Components/Pagination';
 import PageActions from '@/Components/PageActions';
 import DataTable from '@/Components/DataTable';
 import AddUserModal from './Partials/AddUserModal';
+import EditUserModal from './Partials/EditUserModal';
+import PageHeader from '@/Components/PageHeader';
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 export default function Index({ users, regions, units, jabatans, filters }) {
     const { flash = {} } = usePage().props;
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState(filters?.search || '');
+    const [perPage, setPerPage] = useState(filters?.per_page || 10);
+    
+    const openEditModal = (user) => {
+        setEditingUser(user);
+        setIsEditModalOpen(true);
+    };
+
+    const handleDelete = (user) => {
+        Swal.fire({
+            title: 'Hapus Pengguna?',
+            text: `Apakah Anda yakin ingin menghapus akses untuk ${user.name}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+            color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#000000',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('master.users.destroy', user.id), {
+                    preserveScroll: true
+                });
+            }
+        });
+    };
+    
+    const { sort_field = 'created_at', sort_direction = 'desc' } = filters || {};
+
+    const handleSort = (field) => {
+        let direction = 'asc';
+        if (sort_field === field && sort_direction === 'asc') {
+            direction = 'desc';
+        }
+        
+        router.get(route('master.users.index'), {
+            search: searchQuery,
+            sort_field: field,
+            sort_direction: direction,
+            per_page: perPage
+        }, { preserveState: true, preserveScroll: true, replace: true });
+    };
+
+    const renderSortIcon = (field) => {
+        if (sort_field !== field) {
+            return <svg className="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>;
+        }
+        if (sort_direction === 'asc') {
+            return <svg className="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" /></svg>;
+        }
+        return <svg className="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>;
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (searchQuery !== (filters?.search || '')) {
-                router.get(route('master.users.index'), { search: searchQuery }, {
+            if (searchQuery !== (filters?.search || '') || perPage !== (filters?.per_page || 10)) {
+                router.get(route('master.users.index'), { 
+                    search: searchQuery,
+                    sort_field,
+                    sort_direction,
+                    per_page: perPage
+                }, {
                     preserveState: true,
                     replace: true,
                     preserveScroll: true
@@ -23,7 +86,7 @@ export default function Index({ users, regions, units, jabatans, filters }) {
             }
         }, 300);
         return () => clearTimeout(timer);
-    }, [searchQuery]);
+    }, [searchQuery, perPage]);
 
     useEffect(() => {
         if (flash.success) {
@@ -55,16 +118,43 @@ export default function Index({ users, regions, units, jabatans, filters }) {
     }, [flash]);
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-slate-800 leading-tight">Manajemen Pengguna</h2>}>
+        <AuthenticatedLayout 
+            header={
+                <PageHeader 
+                    title="Manajemen Pengguna" 
+                    breadcrumbs={[
+                        { label: 'Data Master', url: null },
+                        { label: 'Pengguna', url: null }
+                    ]}
+                />
+            }
+        >
             <Head title="Manajemen Pengguna" />
 
             <PageActions 
                 searchPlaceholder="Cari pengguna berdasarkan nama, NIK, atau Email..."
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
-                actionLabel="Tambah User"
+                actionLabel="Tambah Pengguna"
                 onAction={() => setIsAddModalOpen(true)}
-            />
+            >
+                <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <span>Menampilkan</span>
+                    <div className="flex items-center bg-white dark:bg-slate-800/60 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700/60 shadow-sm backdrop-blur-md">
+                        <select 
+                            value={perPage} 
+                            onChange={(e) => setPerPage(e.target.value)}
+                            className="py-1 pl-2 pr-7 text-xs font-semibold text-blue-600 dark:text-blue-400 bg-transparent border-none rounded-md focus:ring-0 cursor-pointer transition-colors"
+                        >
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <span>data per halaman</span>
+                </div>
+            </PageActions>
 
             <AddUserModal 
                 isOpen={isAddModalOpen} 
@@ -74,17 +164,78 @@ export default function Index({ users, regions, units, jabatans, filters }) {
                 jabatans={jabatans}
             />
 
-            {/* Table Card */}
+            <EditUserModal 
+                isOpen={isEditModalOpen} 
+                onClose={() => setIsEditModalOpen(false)} 
+                user={editingUser}
+                regions={regions}
+                units={units}
+                jabatans={jabatans}
+            />
+
             <DataTable 
-                pagination={<Pagination links={users.links} from={users.from} to={users.to} total={users.total} />}
+                pagination={
+                    <Pagination 
+                        links={users.links} 
+                        from={users.from} 
+                        to={users.to} 
+                        total={users.total}
+                        perPage={perPage}
+                        setPerPage={setPerPage}
+                    />
+                }
             >
-                <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 transition-colors">
+                <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700/60 transition-colors">
                     <tr>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider">Name / NIK</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider">Contact</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider">Region & Unit</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider">Roles</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-right">Aksi</th>
+                        <th scope="col" onClick={() => handleSort('name')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                Nama Lengkap
+                                {renderSortIcon('name')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('nik')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                NIK
+                                {renderSortIcon('nik')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('email')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                Email
+                                {renderSortIcon('email')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('nowa')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                No. WA
+                                {renderSortIcon('nowa')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('region')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                Region
+                                {renderSortIcon('region')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('unit')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                Unit
+                                {renderSortIcon('unit')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('jabatan')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                Jabatan
+                                {renderSortIcon('jabatan')}
+                            </div>
+                        </th>
+                        <th scope="col" onClick={() => handleSort('roles')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
+                            <div className="flex items-center gap-2">
+                                Akses
+                                {renderSortIcon('roles')}
+                            </div>
+                        </th>
+                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-left align-middle">Aksi</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800 transition-colors">
@@ -96,34 +247,46 @@ export default function Index({ users, regions, units, jabatans, filters }) {
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-50 dark:from-blue-900/50 dark:to-indigo-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold border border-blue-200 dark:border-blue-800 shrink-0">
                                             {user.name.charAt(0)}
                                         </div>
-                                        <div>
-                                            <div className="font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{user.name}</div>
-                                            <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">{user.nik}</div>
+                                        <div className="font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                            {user.name}
                                         </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-slate-700 dark:text-slate-300">{user.email}</div>
-                                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{user.nowa || '-'}</div>
+                                    <div className="text-sm text-slate-500 dark:text-slate-400 font-mono">{user.nik}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
+                                    <div className="text-sm text-slate-700 dark:text-slate-300">{user.email}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-sm text-slate-500 dark:text-slate-400 font-mono">{user.nowa || '-'}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="flex items-center gap-1.5 text-sm text-slate-700 dark:text-slate-300">
                                         <svg className="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         {user.region || 'Pusat'}
                                     </div>
-                                    <div className="text-xs text-slate-500 dark:text-slate-400 ml-5 mt-0.5">{user.unit || '-'}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-sm text-slate-500 dark:text-slate-400">{user.unit || '-'}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">{user.jabatan || '-'}</div>
                                 </td>
                                 <td className="px-6 py-4">
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800 truncate max-w-[150px]" title={user.roles}>
                                         {user.roles || 'USER'}
                                     </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right">
-                                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                        <button className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors" title="Edit User">
+                                <td className="px-6 py-4 whitespace-nowrap text-left">
+                                    <div className="flex items-center justify-start gap-2 transition-opacity duration-200">
+                                        <Link href={route('master.users.generate', user.id)} className="p-2 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors" title="Generate Kredensial">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                                        </Link>
+                                        <button onClick={() => openEditModal(user)} className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors" title="Ubah Pengguna">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                         </button>
-                                        <button className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors" title="Hapus User">
+                                        <button onClick={() => handleDelete(user)} className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors" title="Hapus Pengguna">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
@@ -132,7 +295,7 @@ export default function Index({ users, regions, units, jabatans, filters }) {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="5" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+                            <td colSpan="9" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
                                 <svg className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>

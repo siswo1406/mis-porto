@@ -10,8 +10,13 @@ export default function PageActions({
     children 
 }) {
     return (
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-end gap-4">
-            <div className="flex items-center gap-3 w-full sm:w-auto">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {/* Custom Actions (Filters, dropdown, dll) on the left */}
+            <div>
+                {children}
+            </div>
+
+            <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
                 {/* Search Bar */}
                 <div className="relative w-full sm:w-64">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -29,9 +34,6 @@ export default function PageActions({
                         placeholder={searchPlaceholder} 
                     />
                 </div>
-                
-                {/* Custom Actions (Filters, etc) */}
-                {children}
 
                 {/* Primary Action Button */}
                 {actionLabel && (
