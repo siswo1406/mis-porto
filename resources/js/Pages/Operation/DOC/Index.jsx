@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
+import PageHeader from '@/Components/PageHeader';
 
 export default function Index({ logdocs = [] }) {
     // Fungsi untuk memfilter data dari database berdasarkan ID kategori
@@ -55,8 +56,18 @@ export default function Index({ logdocs = [] }) {
     ];
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-slate-800 dark:text-slate-100 leading-tight">Data Logistik Bibit Ayam</h2>}>
-            <Head title="DOC - Operation" />
+        <AuthenticatedLayout 
+            header={
+                <PageHeader 
+                    title="Data Logistik Bibit Ayam" 
+                    breadcrumbs={[
+                        { label: 'Operasional', url: null },
+                        { label: 'DOC (Logistik Bibit Ayam)', url: null }
+                    ]}
+                />
+            }
+        >
+            <Head title="Data Logistik Bibit Ayam" />
 
 
             {/* Grid Layout Categories */}
@@ -98,10 +109,10 @@ export default function Index({ logdocs = [] }) {
                                                 
                                                 {/* Action Buttons */}
                                                 <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                                    <button className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-lg transition-colors" title="Edit">
+                                                    <button className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-lg transition-colors" title="Ubah">
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                                     </button>
-                                                    <button className="p-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors bg-slate-100 dark:bg-slate-800" title="View Detail">
+                                                    <button className="p-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors bg-slate-100 dark:bg-slate-800" title="Lihat Detail">
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                                                     </button>
                                                 </div>
