@@ -121,7 +121,6 @@ export default function AuthenticatedLayout({ header, children }) {
                             icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>}
                         >
                             <SidebarLink href={route('master.users.index')} active={route().current('master.users.index')} isFolded={false}>Pengguna</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Peran & Hak Akses</SidebarLink>
                         </SidebarDropdown>
                         
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isFolded ? 'max-h-0 opacity-0 my-0 border-transparent' : 'max-h-[40px] opacity-100 mt-6 pt-6 border-t border-slate-200 dark:border-white/10 mb-2'}`}>
