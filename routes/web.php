@@ -20,6 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::get('/password-reset', [\App\Http\Controllers\Settings\PasswordResetController::class, 'index'])->name('password.reset');
+        Route::post('/password-reset', [\App\Http\Controllers\Settings\PasswordResetController::class, 'reset'])->name('password.reset.submit');
+    });
+
     Route::prefix('master')->name('master.')->group(function () {
         Route::get('/users', [\App\Http\Controllers\Master\UserController::class, 'index'])->name('users.index');
         Route::post('/users', [\App\Http\Controllers\Master\UserController::class, 'store'])->name('users.store');
