@@ -24,7 +24,10 @@ class DatabaseSeeder extends Seeder
             'roles' => 'admin',
             'region' => 'MJL',
             'unit' => 'HO',
-            'password' => \Illuminate\Support\Facades\Hash::make('@siswo1998'),
+            'jabatan' => 'ADMINISTRATOR',
+            'password' => \Illuminate\Support\Facades\Hash::make('@Siswo1998'),
         ]);
+
+        $this->call(RealUserSeeder::class);
     }
 }
