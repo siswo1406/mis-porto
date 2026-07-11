@@ -185,64 +185,62 @@ export default function Index({ users, regions, units, jabatans, filters }) {
                     />
                 }
             >
-                <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700/60 transition-colors">
-                    <tr>
-                        <th scope="col" onClick={() => handleSort('name')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                Nama Lengkap
-                                {renderSortIcon('name')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('nik')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                NIK
-                                {renderSortIcon('nik')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('email')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                Email
-                                {renderSortIcon('email')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('nowa')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                No. WA
-                                {renderSortIcon('nowa')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('region')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                Region
-                                {renderSortIcon('region')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('unit')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                Unit
-                                {renderSortIcon('unit')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('jabatan')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                Jabatan
-                                {renderSortIcon('jabatan')}
-                            </div>
-                        </th>
-                        <th scope="col" onClick={() => handleSort('roles')} className="px-6 py-4 font-semibold tracking-wider text-left group cursor-pointer hover:text-slate-700 dark:hover:text-slate-200 transition-colors align-middle">
-                            <div className="flex items-center gap-2">
-                                Akses
-                                {renderSortIcon('roles')}
-                            </div>
-                        </th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-left align-middle">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 transition-colors">
+                <DataTable.Thead>
+                    <DataTable.Th sortable onClick={() => handleSort('name')}>
+                        <div className="flex items-center gap-2">
+                            Nama Lengkap
+                            {renderSortIcon('name')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('nik')}>
+                        <div className="flex items-center gap-2">
+                            NIK
+                            {renderSortIcon('nik')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('email')}>
+                        <div className="flex items-center gap-2">
+                            Email
+                            {renderSortIcon('email')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('nowa')}>
+                        <div className="flex items-center gap-2">
+                            No. WA
+                            {renderSortIcon('nowa')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('region')}>
+                        <div className="flex items-center gap-2">
+                            Region
+                            {renderSortIcon('region')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('unit')}>
+                        <div className="flex items-center gap-2">
+                            Unit
+                            {renderSortIcon('unit')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('jabatan')}>
+                        <div className="flex items-center gap-2">
+                            Jabatan
+                            {renderSortIcon('jabatan')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th sortable onClick={() => handleSort('roles')}>
+                        <div className="flex items-center gap-2">
+                            Akses
+                            {renderSortIcon('roles')}
+                        </div>
+                    </DataTable.Th>
+                    <DataTable.Th>Aksi</DataTable.Th>
+                </DataTable.Thead>
+                <DataTable.Tbody>
                     {users.data && users.data.length > 0 ? (
                         users.data.map((user) => (
-                            <tr key={user.id} className="hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-colors duration-200 group">
-                                <td className="px-6 py-4 whitespace-nowrap">
+                            <DataTable.Tr key={user.id}>
+                                <DataTable.Td>
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-50 dark:from-blue-900/50 dark:to-indigo-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold border border-blue-200 dark:border-blue-800 shrink-0">
                                             {user.name.charAt(0)}
@@ -251,34 +249,34 @@ export default function Index({ users, regions, units, jabatans, filters }) {
                                             {user.name}
                                         </div>
                                     </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <div className="text-sm text-slate-500 dark:text-slate-400 font-mono">{user.nik}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <div className="text-sm text-slate-700 dark:text-slate-300">{user.email}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <div className="text-sm text-slate-500 dark:text-slate-400 font-mono">{user.nowa || '-'}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <div className="flex items-center gap-1.5 text-sm text-slate-700 dark:text-slate-300">
                                         <svg className="w-4 h-4 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         {user.region || 'Pusat'}
                                     </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <div className="text-sm text-slate-500 dark:text-slate-400">{user.unit || '-'}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">{user.jabatan || '-'}</div>
-                                </td>
-                                <td className="px-6 py-4">
+                                </DataTable.Td>
+                                <DataTable.Td>
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800 truncate max-w-[150px]" title={user.roles}>
                                         {user.roles || 'USER'}
                                     </span>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-left">
+                                </DataTable.Td>
+                                <DataTable.Td className="text-left">
                                     <div className="flex items-center justify-start gap-2 transition-opacity duration-200">
                                         <Link href={route('master.users.generate', user.id)} className="p-2 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors" title="Generate Kredensial">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
@@ -290,20 +288,13 @@ export default function Index({ users, regions, units, jabatans, filters }) {
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </div>
-                                </td>
-                            </tr>
+                                </DataTable.Td>
+                            </DataTable.Tr>
                         ))
                     ) : (
-                        <tr>
-                            <td colSpan="9" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                                <svg className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                                Belum ada data pengguna yang terdaftar.
-                            </td>
-                        </tr>
+                        <DataTable.Empty colSpan={9} message="Belum ada data pengguna yang terdaftar." />
                     )}
-                </tbody>
+                </DataTable.Tbody>
             </DataTable>
         </AuthenticatedLayout>
     );
