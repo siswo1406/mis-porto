@@ -13,7 +13,6 @@ export default function AddSopModal({ isOpen, onClose }) {
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         no_sop: '',
         nama: '',
-        tanggal: '',
         file: null,
         attachments: []
     });
@@ -73,35 +72,19 @@ export default function AddSopModal({ isOpen, onClose }) {
                                 Dokumen Utama
                             </h3>
                             
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <InputLabel htmlFor="no_sop" value="Nomor SOP" className="text-slate-700 dark:text-slate-300 font-semibold" />
-                                    <TextInput
-                                        id="no_sop"
-                                        type="text"
-                                        name="no_sop"
-                                        value={data.no_sop}
-                                        className="mt-1 block w-full bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm"
-                                        onChange={(e) => setData('no_sop', e.target.value)}
-                                        required
-                                        placeholder="Contoh: SOP-HR-001"
-                                    />
-                                    <InputError message={errors.no_sop} className="mt-2" />
-                                </div>
-
-                                <div>
-                                    <InputLabel htmlFor="tanggal" value="Tanggal SOP" className="text-slate-700 dark:text-slate-300 font-semibold" />
-                                    <TextInput
-                                        id="tanggal"
-                                        type="date"
-                                        name="tanggal"
-                                        value={data.tanggal}
-                                        className="mt-1 block w-full bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm"
-                                        onChange={(e) => setData('tanggal', e.target.value)}
-                                        required
-                                    />
-                                    <InputError message={errors.tanggal} className="mt-2" />
-                                </div>
+                            <div>
+                                <InputLabel htmlFor="no_sop" value="Nomor SOP" className="text-slate-700 dark:text-slate-300 font-semibold" />
+                                <TextInput
+                                    id="no_sop"
+                                    type="text"
+                                    name="no_sop"
+                                    value={data.no_sop}
+                                    className="mt-1 block w-full bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 focus:border-blue-500 focus:ring-blue-500 rounded-lg shadow-sm"
+                                    onChange={(e) => setData('no_sop', e.target.value)}
+                                    required
+                                    placeholder="Contoh: SOP-HR-001"
+                                />
+                                <InputError message={errors.no_sop} className="mt-2" />
                             </div>
 
                             <div>
