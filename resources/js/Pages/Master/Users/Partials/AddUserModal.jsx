@@ -61,7 +61,7 @@ export default function AddUserModal({ isOpen, onClose, regions = [], units = []
             <div className="fixed inset-0 bg-slate-900/75 dark:bg-slate-950/80 backdrop-blur-sm transition-opacity"></div>
 
             <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0 relative z-10" onMouseDown={closeModal}>
-                <div className="relative transform overflow-hidden rounded-2xl bg-white dark:bg-slate-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl border border-slate-200 dark:border-slate-800" onMouseDown={(e) => e.stopPropagation()}>
+                <div className="relative transform overflow-hidden rounded-2xl bg-white dark:bg-slate-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-5xl border border-slate-200 dark:border-slate-800" onMouseDown={(e) => e.stopPropagation()}>
                     <div className="bg-white dark:bg-slate-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border-b border-slate-100 dark:border-slate-800 transition-colors">
                         <div className="sm:flex sm:items-start">
                             <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/50 sm:mx-0 sm:h-10 sm:w-10">
