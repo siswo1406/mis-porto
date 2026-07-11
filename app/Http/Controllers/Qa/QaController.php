@@ -46,7 +46,6 @@ class QaController extends Controller
         $request->validate([
             'no_sop' => 'required|string|unique:qa_sops,no_sop',
             'nama' => 'required|string',
-            'tanggal' => 'required|date',
             'file' => 'required|file|mimes:pdf|max:10240',
             'attachments' => 'nullable|array',
             'attachments.*.nama' => 'required_with:attachments|string',
@@ -70,7 +69,7 @@ class QaController extends Controller
             $sop = QaSop::create([
                 'no_sop' => $request->no_sop,
                 'nama' => $request->nama,
-                'tanggal' => $request->tanggal,
+                'tanggal' => now()->toDateString(),
                 'file' => $fileName,
             ]);
 
