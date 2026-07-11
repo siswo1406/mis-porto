@@ -157,7 +157,7 @@ class PasswordResetController extends Controller
 
                 try {
                     $response = Http::withHeaders([
-                        'x-api-key'    => 'devmustikaapaccess',
+                        'x-api-key'    => env('AGRINIS_API_KEY', ''),
                         'Content-Type' => 'application/json',
                         'Accept'       => 'application/json'
                     ])->timeout(10)->put($apiUrl, [
@@ -192,8 +192,8 @@ class PasswordResetController extends Controller
         } elseif ($targetApp == 'ZIMBRA') {
             try {
                 $zimbraUrl = 'https://mail.ptmjl.co.id:7071/service/admin/soap/';
-                $zimbraUser = 'mis-admin@ptmjl.co.id';
-                $zimbraPass = 'Mustika#2017!';
+                $zimbraUser = env('ZIMBRA_ADMIN_USER', '');
+                $zimbraPass = env('ZIMBRA_ADMIN_PASSWORD', '');
 
                 $authPayload = [
                     'Body' => [

@@ -65,7 +65,7 @@ class UserController extends Controller
             'jabatan' => 'nullable|string',
         ]);
 
-        $defaultPassword = 'Mustika@' . date('Y');
+        $defaultPassword = env('DEFAULT_USER_PASSWORD', 'Mustika@' . date('Y'));
         $password = empty($request->password) 
             ? \Illuminate\Support\Facades\Hash::make($defaultPassword) 
             : \Illuminate\Support\Facades\Hash::make($request->password);
@@ -170,7 +170,7 @@ class UserController extends Controller
         }
 
         $firstName = strtolower(explode(' ', $user->name)[0]);
-        $defaultPassword = 'Mustika@' . date('Y');
+        $defaultPassword = env('DEFAULT_USER_PASSWORD', 'Mustika@' . date('Y'));
         
         $accounts = [
             [
