@@ -7,8 +7,8 @@ export default function ViewSopModal({ isOpen, onClose, sop }) {
     const mainFileUrl = route('qa.sop.file', { type: 'main', id: sop.id });
 
     return (
-        <Modal show={isOpen} onClose={onClose} maxWidth="5xl">
-            <div className="flex flex-col h-[85vh] bg-slate-50 dark:bg-slate-900 rounded-lg overflow-hidden">
+        <Modal show={isOpen} onClose={onClose} maxWidth="full">
+            <div className="bg-white dark:bg-slate-900 overflow-hidden shadow-xl sm:rounded-lg flex flex-col h-[85vh]">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 shrink-0">
                     <div>

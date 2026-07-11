@@ -27,10 +27,10 @@ Route::middleware('auth')->group(function () {
 
     // QA Module
     Route::prefix('qa')->name('qa.')->group(function () {
-        Route::get('/', [App\Http\Controllers\Qa\QaController::class, 'index'])->name('portal');
-        Route::get('/sop', [App\Http\Controllers\Qa\QaController::class, 'sop'])->name('sop.index');
-        Route::post('/sop', [App\Http\Controllers\Qa\QaController::class, 'store'])->name('sop.store');
-        Route::get('/sop/file/{type}/{id}', [App\Http\Controllers\Qa\QaController::class, 'file'])->name('sop.file');
+        Route::get('/', [App\Http\Controllers\Qa\SopController::class, 'index'])->name('portal');
+        Route::get('/sop', [App\Http\Controllers\Qa\SopController::class, 'sop'])->name('sop.index');
+        Route::post('/sop', [App\Http\Controllers\Qa\SopController::class, 'store'])->name('sop.store');
+        Route::get('/sop/file/{type}/{id}', [App\Http\Controllers\Qa\SopController::class, 'file'])->name('sop.file');
     });
 
     Route::prefix('master')->name('master.')->group(function () {

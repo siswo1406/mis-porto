@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use App\Models\QaSop;
 use App\Models\QaUpdate;
 
-class QaController extends Controller
+class SopController extends Controller
 {
     public function index()
     {

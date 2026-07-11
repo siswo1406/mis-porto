@@ -87,34 +87,32 @@ export default function SopIndex({ auth, sops, filters }) {
                     />
                 }
             >
-                <thead className="text-xs text-slate-500 dark:text-slate-400 uppercase bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700/60 transition-colors">
-                    <tr>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-left align-middle">No SOP</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-left align-middle">Judul SOP</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-left align-middle">Tanggal Update</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-center align-middle">Lampiran Pendukung</th>
-                        <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-center align-middle">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 transition-colors">
+                <DataTable.Thead>
+                    <DataTable.Th>No SOP</DataTable.Th>
+                    <DataTable.Th>Judul SOP</DataTable.Th>
+                    <DataTable.Th>Tanggal Update</DataTable.Th>
+                    <DataTable.Th className="text-center">Lampiran Pendukung</DataTable.Th>
+                    <DataTable.Th className="text-center">Aksi</DataTable.Th>
+                </DataTable.Thead>
+                <DataTable.Tbody>
                     {sops.data && sops.data.length > 0 ? (
                         sops.data.map((sop) => (
-                        <tr key={sop.id} className="hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-colors duration-200 group">
-                            <td className="px-6 py-4 whitespace-nowrap font-mono text-slate-600 dark:text-slate-300">
+                        <DataTable.Tr key={sop.id}>
+                            <DataTable.Td className="font-mono text-slate-600 dark:text-slate-300">
                                 {sop.no_sop}
-                            </td>
-                            <td className="px-6 py-4 font-semibold text-slate-900 dark:text-white">
+                            </DataTable.Td>
+                            <DataTable.Td className="font-semibold text-slate-900 dark:text-white">
                                 <button 
                                     onClick={() => openViewModal(sop)}
                                     className="hover:text-blue-600 dark:hover:text-blue-400 text-left transition-colors focus:outline-none"
                                 >
                                     {sop.nama}
                                 </button>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-slate-500 dark:text-slate-400">
+                            </DataTable.Td>
+                            <DataTable.Td className="text-slate-500 dark:text-slate-400">
                                 {sop.tanggal}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                            </DataTable.Td>
+                            <DataTable.Td className="text-center">
                                 {sop.attachments && sop.attachments.length > 0 ? (
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800">
                                         {sop.attachments.length} berkas
@@ -122,8 +120,8 @@ export default function SopIndex({ auth, sops, filters }) {
                                 ) : (
                                     <span className="text-slate-400">-</span>
                                 )}
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                            </DataTable.Td>
+                            <DataTable.Td className="text-center">
                                 <div className="flex items-center justify-center gap-2">
                                     <button 
                                         onClick={() => openViewModal(sop)}
@@ -133,20 +131,13 @@ export default function SopIndex({ auth, sops, filters }) {
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                     </button>
                                 </div>
-                            </td>
-                        </tr>
+                            </DataTable.Td>
+                        </DataTable.Tr>
                     ))
                     ) : (
-                        <tr>
-                            <td colSpan="5" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
-                                <svg className="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                                Data SOP belum tersedia
-                            </td>
-                        </tr>
+                        <DataTable.Empty colSpan={5} message="Data SOP belum tersedia" />
                     )}
-                </tbody>
+                </DataTable.Tbody>
             </DataTable>
 
             <ViewSopModal 
