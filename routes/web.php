@@ -25,12 +25,26 @@ Route::middleware('auth')->group(function () {
         Route::post('/password-reset', [\App\Http\Controllers\Settings\PasswordResetController::class, 'reset'])->name('password.reset.submit');
     });
 
-    // QA Module
+    // QA Module Routes
     Route::prefix('qa')->name('qa.')->group(function () {
-        Route::get('/', [App\Http\Controllers\Qa\SopController::class, 'index'])->name('portal');
-        Route::get('/sop', [App\Http\Controllers\Qa\SopController::class, 'sop'])->name('sop.index');
-        Route::post('/sop', [App\Http\Controllers\Qa\SopController::class, 'store'])->name('sop.store');
-        Route::get('/sop/file/{type}/{id}', [App\Http\Controllers\Qa\SopController::class, 'file'])->name('sop.file');
+        Route::get('/', [\App\Http\Controllers\Qa\SopController::class, 'index'])->name('portal');
+        
+        // SOP
+        Route::get('/sop', [\App\Http\Controllers\Qa\SopController::class, 'sop'])->name('sop.index');
+        Route::post('/sop', [\App\Http\Controllers\Qa\SopController::class, 'store'])->name('sop.store');
+        Route::get('/sop/file/{type}/{id}', [\App\Http\Controllers\Qa\SopController::class, 'file'])->name('sop.file');
+
+        // Surat Resmi
+        Route::get('/surat-resmi', [\App\Http\Controllers\Qa\SuratResmiController::class, 'index'])->name('surat-resmi.index');
+    });
+
+    Route::prefix('tax')->name('tax.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Tax\TaxController::class, 'index'])->name('portal');
+        Route::resource('laporan-masa', \App\Http\Controllers\Tax\LaporanMasaController::class)->except(['create', 'show', 'edit']);
+        Route::patch('laporan-masa/{laporan_masa}/uraian', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'updateUraian'])->name('laporan-masa.uraian');
+        Route::post('laporan-masa/{laporan_masa}/pembetulan', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'storePembetulan'])->name('laporan-masa.pembetulan.store');
+        Route::post('laporan-masa/pembetulan/{pembetulan}', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'updatePembetulan'])->name('laporan-masa.pembetulan.update');
+        Route::delete('laporan-masa/pembetulan/{pembetulan}', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'destroyPembetulan'])->name('laporan-masa.pembetulan.destroy');
     });
 
     Route::prefix('master')->name('master.')->group(function () {

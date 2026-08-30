@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import PageHeader from '@/Components/PageHeader';
-
+import Card from '@/Components/Card';
 export default function Index({ logdocs = [] }) {
     // Fungsi untuk memfilter data dari database berdasarkan ID kategori
     const getMenusByCategory = (categoryId) => {
@@ -55,6 +55,9 @@ export default function Index({ logdocs = [] }) {
         }
     ];
 
+    // Logika grid: Jika item cuma 2, pakai 2 kolom. Jika 3 atau lebih, pakai 3 kolom per baris.
+    const gridCols = menuCategories.length <= 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-3';
+
     return (
         <AuthenticatedLayout 
             header={
@@ -71,21 +74,21 @@ export default function Index({ logdocs = [] }) {
 
 
             {/* Grid Layout Categories */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className={`grid grid-cols-1 md:grid-cols-2 ${gridCols} gap-6`}>
                 {menuCategories.map((category) => (
-                    <div key={category.id} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                    <Card key={category.id} hoverEffect={true}>
                         {/* Card Header */}
-                        <div className="p-5 border-b border-slate-100 dark:border-slate-800/50 flex items-center gap-4">
+                        <Card.Header>
                             <div className={`p-3 rounded-xl ${category.color}`}>
                                 {category.icon}
                             </div>
                             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide">
                                 {category.title}
                             </h3>
-                        </div>
+                        </Card.Header>
                         
                         {/* Menu Items List */}
-                        <div className="p-2">
+                        <Card.Body noPadding={true} className="p-2">
                             <ul className="space-y-1">
                                 {category.menus.map((menu, idx) => (
                                     <li key={idx}>
@@ -121,8 +124,8 @@ export default function Index({ logdocs = [] }) {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
-                    </div>
+                        </Card.Body>
+                    </Card>
                 ))}
             </div>
         </AuthenticatedLayout>
