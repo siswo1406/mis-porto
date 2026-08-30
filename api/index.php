@@ -20,6 +20,16 @@ foreach ($dirs as $dir) {
     }
 }
 
+// Copy initial SQLite database with seed data to writable /tmp if exists
+if (!file_exists('/tmp/database.sqlite') && file_exists(__DIR__ . '/../database/database.sqlite')) {
+    @copy(__DIR__ . '/../database/database.sqlite', '/tmp/database.sqlite');
+}
+
+// Set DB_DATABASE env for SQLite
+putenv('DB_DATABASE=/tmp/database.sqlite');
+$_ENV['DB_DATABASE'] = '/tmp/database.sqlite';
+$_SERVER['DB_DATABASE'] = '/tmp/database.sqlite';
+
 // Register the Composer autoloader...
 require __DIR__ . '/../vendor/autoload.php';
 
