@@ -38,6 +38,7 @@ $defaultEnvs = [
     'LOG_CHANNEL' => 'stderr',
     'APP_MAINTENANCE_DRIVER' => 'file',
     'APP_MAINTENANCE_STORE' => 'cache',
+    'BCRYPT_ROUNDS' => '12',
 ];
 
 foreach ($defaultEnvs as $key => $val) {

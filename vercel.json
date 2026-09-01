@@ -43,6 +43,7 @@
     "FILESYSTEM_DISK": "local",
     "LOG_CHANNEL": "stderr",
     "DB_CONNECTION": "sqlite",
-    "DB_DATABASE": "/tmp/database.sqlite"
+    "DB_DATABASE": "/tmp/database.sqlite",
+    "BCRYPT_ROUNDS": "12"
   }
 }
