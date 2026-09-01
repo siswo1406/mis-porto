@@ -25,10 +25,26 @@ if (!file_exists('/tmp/database.sqlite') && file_exists(__DIR__ . '/../database/
     @copy(__DIR__ . '/../database/database.sqlite', '/tmp/database.sqlite');
 }
 
-// Set DB_DATABASE env for SQLite
-putenv('DB_DATABASE=/tmp/database.sqlite');
-$_ENV['DB_DATABASE'] = '/tmp/database.sqlite';
-$_SERVER['DB_DATABASE'] = '/tmp/database.sqlite';
+// Guard default environment variables against empty strings from Vercel UI
+$defaultEnvs = [
+    'DB_CONNECTION' => 'sqlite',
+    'DB_DATABASE' => '/tmp/database.sqlite',
+    'VIEW_COMPILED_PATH' => '/tmp/storage/framework/views',
+    'SESSION_DRIVER' => 'cookie',
+    'CACHE_STORE' => 'array',
+    'CACHE_DRIVER' => 'array',
+    'QUEUE_CONNECTION' => 'sync',
+    'FILESYSTEM_DISK' => 'local',
+    'LOG_CHANNEL' => 'stderr',
+];
+
+foreach ($defaultEnvs as $key => $val) {
+    if (empty(getenv($key))) {
+        putenv("{$key}={$val}");
+        $_ENV[$key] = $val;
+        $_SERVER[$key] = $val;
+    }
+}
 
 // Register the Composer autoloader...
 require __DIR__ . '/../vendor/autoload.php';
