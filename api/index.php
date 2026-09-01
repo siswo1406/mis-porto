@@ -36,6 +36,8 @@ $defaultEnvs = [
     'QUEUE_CONNECTION' => 'sync',
     'FILESYSTEM_DISK' => 'local',
     'LOG_CHANNEL' => 'stderr',
+    'APP_MAINTENANCE_DRIVER' => 'file',
+    'APP_MAINTENANCE_STORE' => 'cache',
 ];
 
 foreach ($defaultEnvs as $key => $val) {
