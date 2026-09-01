@@ -37,7 +37,10 @@
     "APP_SERVICES_CACHE": "/tmp/services.php",
     "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
     "CACHE_STORE": "array",
+    "CACHE_DRIVER": "array",
     "SESSION_DRIVER": "cookie",
+    "QUEUE_CONNECTION": "sync",
+    "FILESYSTEM_DISK": "local",
     "LOG_CHANNEL": "stderr",
     "DB_CONNECTION": "sqlite",
     "DB_DATABASE": "/tmp/database.sqlite"
