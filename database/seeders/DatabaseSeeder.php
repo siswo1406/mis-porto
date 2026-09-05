@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(RealUserSeeder::class);
+        $this->call(TaxLaporanMasaSeeder::class);
     }
 }
