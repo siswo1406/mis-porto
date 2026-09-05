@@ -68,10 +68,10 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('operation.*')}
                             icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>}
                         >
-                            <SidebarLink href="#" isFolded={false}>Produksi Farm</SidebarLink>
-                            <SidebarLink href={route('operation.doc.index')} active={route().current('operation.doc.index')} isFolded={false}>DOC</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Pakan & OVK</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Penjualan Livebird</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Production</SidebarLink>
+                            <SidebarLink href={route('operation.doc.index')} active={route().current('operation.doc.index')} isFolded={false}>DOC Logistics</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Feed & Medvac Logistics</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Sales & Marketing</SidebarLink>
                         </SidebarDropdown>
 
                         <SidebarDropdown 

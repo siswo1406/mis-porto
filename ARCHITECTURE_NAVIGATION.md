@@ -39,10 +39,10 @@ Semua nama divisi di **Layer 1** menggunakan standar bahasa Inggris korporat (*C
 ├── Layer 0: Beranda (/dashboard)
 │
 ├── Layer 1: Operations
-│   ├── Layer 2: Produksi Farm
-│   ├── Layer 3: DOC (/operation/doc) [Bypass Layer 2]
-│   ├── Layer 2: Pakan & OVK
-│   └── Layer 2: Penjualan Livebird
+│   ├── Layer 2: Production (Farm Recording, Brooding & Harvest)
+│   ├── Layer 2: DOC Logistics (/operation/doc)
+│   ├── Layer 2: Feed & Medvac Logistics (Pakan & OVK)
+│   └── Layer 2: Sales & Marketing (Livebird Sales & Catching)
 │
 ├── Layer 1: Human Capital
 │   ├── Layer 2: Personalia
