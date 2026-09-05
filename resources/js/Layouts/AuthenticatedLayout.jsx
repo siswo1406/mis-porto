@@ -57,25 +57,25 @@ export default function AuthenticatedLayout({ header, children }) {
                         </SidebarLink>
 
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isFolded ? 'max-h-0 opacity-0 my-0 border-transparent' : 'max-h-[40px] opacity-100 mt-6 pt-6 border-t border-slate-200 dark:border-white/10 mb-2'}`}>
-                            <p className="px-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Modul</p>
+                            <p className="px-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Modules</p>
                         </div>
                         {isFolded && <div className="h-4"></div>}
 
                         <SidebarDropdown 
-                            title="Operasional" 
+                            title="Operations" 
                             isFolded={isFolded}
                             onExpand={handleExpandSidebar}
                             active={route().current('operation.*')}
                             icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>}
                         >
-                            <SidebarLink href="#" isFolded={false}>Produksi</SidebarLink>
-                            <SidebarLink href={route('operation.doc.index')} active={route().current('operation.doc.index')} isFolded={false}>DOC</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Pakan & OVK</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Penjualan</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Production</SidebarLink>
+                            <SidebarLink href={route('operation.doc.index')} active={route().current('operation.doc.index')} isFolded={false}>DOC Logistics</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Feed & Medvac Logistics</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Sales & Marketing</SidebarLink>
                         </SidebarDropdown>
 
                         <SidebarDropdown 
-                            title="SDM" 
+                            title="Human Capital" 
                             isFolded={isFolded}
                             onExpand={handleExpandSidebar}
                             icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>}
@@ -86,7 +86,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </SidebarDropdown>
 
                         <SidebarDropdown 
-                            title="TAF" 
+                            title="Finance, Accounting & Tax" 
                             isFolded={isFolded}
                             onExpand={handleExpandSidebar}
                             active={route().current('tax.*')}
@@ -98,7 +98,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </SidebarDropdown>
 
                         <SidebarDropdown 
-                            title="Corp Com" 
+                            title="Corporate Communication" 
                             isFolded={isFolded}
                             onExpand={handleExpandSidebar}
                             active={route().current('qa.*')}
@@ -107,11 +107,32 @@ export default function AuthenticatedLayout({ header, children }) {
                             <SidebarLink href="#" isFolded={false}>Monitoring & Reporting</SidebarLink>
                             <SidebarLink href={route('qa.portal')} active={route().current('qa.*')} isFolded={false}>Quality Assurance</SidebarLink>
                             <SidebarLink href="#" isFolded={false}>SRM</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>MIS</SidebarLink>
+                        </SidebarDropdown>
+
+                        <SidebarDropdown 
+                            title="Technology" 
+                            isFolded={isFolded}
+                            onExpand={handleExpandSidebar}
+                            icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
+                        >
+                            <SidebarLink href="#" isFolded={false}>MIS Dashboard</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>IT Infrastructure</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>System Audit</SidebarLink>
+                        </SidebarDropdown>
+
+                        <SidebarDropdown 
+                            title="RPHU Operations" 
+                            isFolded={isFolded}
+                            onExpand={handleExpandSidebar}
+                            icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
+                        >
+                            <SidebarLink href="#" isFolded={false}>Penerimaan Ayam Hidup</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Proses Pemotongan & Karkas</SidebarLink>
+                            <SidebarLink href="#" isFolded={false}>Cold Storage & Distribusi</SidebarLink>
                         </SidebarDropdown>
                         
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isFolded ? 'max-h-0 opacity-0 my-0 border-transparent' : 'max-h-[40px] opacity-100 mt-6 pt-6 border-t border-slate-200 dark:border-white/10 mb-2'}`}>
-                            <p className="px-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Data Master</p>
+                            <p className="px-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Master Data</p>
                         </div>
                         {isFolded && <div className="h-4"></div>}
 
@@ -126,7 +147,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         </SidebarDropdown>
                         
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isFolded ? 'max-h-0 opacity-0 my-0 border-transparent' : 'max-h-[40px] opacity-100 mt-6 pt-6 border-t border-slate-200 dark:border-white/10 mb-2'}`}>
-                            <p className="px-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sistem</p>
+                            <p className="px-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Settings</p>
                         </div>
                         {isFolded && <div className="h-4"></div>}
                         

@@ -34,14 +34,23 @@ export default function Pagination({ links, from, to, total, perPage, setPerPage
             </div>
             
             <div className="flex items-center gap-1">
-                {links.map((link, idx) => (
-                    <Link
-                        key={idx}
-                        href={link.url || '#'}
-                        className={`px-3 py-1 text-sm rounded-md transition-colors ${link.active ? 'bg-blue-600 text-white font-medium shadow-sm' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'} ${!link.url ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        dangerouslySetInnerHTML={{ __html: link.label }}
-                    />
-                ))}
+                {links.map((link, idx) => {
+                    let label = link.label;
+                    if (label === 'pagination.previous' || label === '&laquo; Previous') {
+                        label = '&laquo;';
+                    } else if (label === 'pagination.next' || label === 'Next &raquo;') {
+                        label = '&raquo;';
+                    }
+
+                    return (
+                        <Link
+                            key={idx}
+                            href={link.url || '#'}
+                            className={`px-3 py-1 text-sm rounded-md transition-colors ${link.active ? 'bg-blue-600 text-white font-medium shadow-sm' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'} ${!link.url ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            dangerouslySetInnerHTML={{ __html: label }}
+                        />
+                    );
+                })}
             </div>
         </div>
     );
