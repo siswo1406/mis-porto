@@ -1,6 +1,6 @@
 # Standar Arsitektur Navigasi & Layering Menu MIS
 
-Dokumen ini mendefinisikan standar **Information Architecture (IA)**, hierarki layer navigasi, konvensi routing, dan pola antarmuka pengguna (UI/UX) pada aplikasi **MIS (Management Information System)**.
+Dokumen ini mendefinisikan standar **Information Architecture (IA)**, hierarki layer navigasi, konvensi routing, penamaan divisi Layer 1 (Corporate English + Industry Acronym), dan pola antarmuka pengguna (UI/UX) pada aplikasi **MIS (Management Information System)**.
 
 ---
 
@@ -10,8 +10,8 @@ Sistem navigasi MIS distandarisasi ke dalam **5 tingkat hierarki (Layer 0 s.d. L
 
 ```mermaid
 flowchart TD
-    L0["Layer 0: Root / Home (Beranda Dashboard)"] --> L1["Layer 1: Departemen / Domain Group (Sidebar Dropdown)"]
-    L1 --> L2["Layer 2: Portal Hub / Modul Utama (Sidebar Link)"]
+    L0["Layer 0: Root / Home (Beranda Dashboard)"] --> L1["Layer 1: Division / Department Group (Sidebar Dropdown)"]
+    L1 --> L2["Layer 2: Portal Hub / Core Module (Sidebar Link)"]
     L2 --> L3["Layer 3: Feature / Working Page (Tabel & Form Kerja)"]
     L3 --> L4["Layer 4: Contextual Actions & Modals (Dialog / Drawer)"]
 ```
@@ -21,7 +21,7 @@ flowchart TD
 | Layer | Nama Layer | Elemen di Aplikasi | Karakteristik & Fungsi | Contoh Real di MIS |
 | :--- | :--- | :--- | :--- | :--- |
 | **Layer 0** | **Root / Home** | Main MIS Dashboard | Halaman beranda utama tempat ringkasan eksekutif, widget global, dan navigasi awal. | `Beranda` (`/dashboard`) |
-| **Layer 1** | **Departemen / Group** | Dropdown Group di Sidebar | Pengelompokan logis berdasarkan divisi operasional / fungsi bisnis perusahaan. | Group **TAF**, **Operasional**, **SDM**, **Corp Com**, **Master** |
+| **Layer 1** | **Division / Department** | Dropdown Group di Sidebar | Pengelompokan divisi berstandar korporat modern (English + Akronim Industri). | **Operations**, **Human Capital**, **Finance, Accounting & Tax**, **Corporate Communication**, **Technology**, **RPHU Operations** |
 | **Layer 2** | **Portal Hub / Modul** | **Link yang diklik di Sidebar** | Halaman hub katalog yang menampilkan kartu-kartu sub-modul dan metrik ringkas per domain. | **Tax** (`/tax`), **Quality Assurance** (`/qa`), **DOC**, **Pengguna** |
 | **Layer 3** | **Feature / Working Page** | Kartu / Menu di dalam Portal Hub | Halaman kerja operasional utama (Data Table, Filter, Pagination, Export/Import). | **Laporan Masa** (`/tax/laporan-masa`), **SOP QA**, **STP** |
 | **Layer 4** | **Sub-Action / Modals** | Dialog Modal / Drawer Form | Aksi kontekstual mendalam per baris data atau entri baru tanpa meninggalkan halaman. | **Modal Pembetulan**, **Modal Uraian**, **Form Add/Edit** |
@@ -31,23 +31,25 @@ flowchart TD
 
 ---
 
-## 2. Pemetaan Modul & Domain Eksisting
+## 2. Standar Penamaan Divisi (Layer 1) & Pemetaan Modul
+
+Semua nama divisi di **Layer 1** menggunakan standar bahasa Inggris korporat (*Corporate English*) dengan mempertahankan akronim industri perunggasan lokal (**RPHU**):
 
 ```text
 ├── Layer 0: Beranda (/dashboard)
 │
-├── Layer 1: Operasional
-│   ├── Layer 2: Produksi
+├── Layer 1: Operations
+│   ├── Layer 2: Produksi Farm
 │   ├── Layer 3: DOC (/operation/doc) [Bypass Layer 2]
 │   ├── Layer 2: Pakan & OVK
-│   └── Layer 2: Penjualan
+│   └── Layer 2: Penjualan Livebird
 │
-├── Layer 1: SDM (Sumber Daya Manusia)
+├── Layer 1: Human Capital
 │   ├── Layer 2: Personalia
 │   ├── Layer 2: Pelatihan & Pengembangan
 │   └── Layer 2: Audit Internal
 │
-├── Layer 1: TAF (Tax, Accounting, Finance)
+├── Layer 1: Finance, Accounting & Tax
 │   ├── Layer 2: Accounting
 │   ├── Layer 2: Finance
 │   └── Layer 2: Tax (/tax) -> Portal Hub
@@ -60,17 +62,28 @@ flowchart TD
 │       ├── Layer 3: Rekap Pajak per AP
 │       └── Layer 3: Rekap Gabungan Pajak
 │
-├── Layer 1: Corp Com & QA
+├── Layer 1: Corporate Communication
 │   ├── Layer 2: Monitoring & Reporting
 │   └── Layer 2: Quality Assurance (/qa) -> Portal Hub
 │       ├── Layer 3: Standar Operasional Prosedur (SOP)
 │       ├── Layer 3: Surat Edaran
 │       └── Layer 3: Log Dokumen (Menu Logdoc)
+│   └── Layer 2: SRM (Stakeholder Relationship Management)
 │
-├── Layer 1: Data Master
+├── Layer 1: Technology
+│   ├── Layer 2: MIS Dashboard
+│   ├── Layer 2: IT Infrastructure
+│   └── Layer 2: System Audit
+│
+├── Layer 1: RPHU Operations (Poultry Processing)
+│   ├── Layer 2: Penerimaan Ayam Hidup
+│   ├── Layer 2: Proses Pemotongan & Karkas
+│   └── Layer 2: Cold Storage & Distribusi
+│
+├── Layer 1: Master Data
 │   └── Layer 3: Pengguna (/master/users) [Bypass Layer 2]
 │
-└── Layer 1: Pengaturan Sistem
+└── Layer 1: System Settings
     ├── Layer 3: Ubah Profil (/profile)
     └── Layer 3: Reset Kata Sandi (/settings/password)
 ```
