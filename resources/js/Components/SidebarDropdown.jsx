@@ -42,7 +42,7 @@ export default function SidebarDropdown({ title, icon, children, active = false,
             
             {/* Submenu items */}
             {isFolded ? (
-                <div className="absolute left-full top-0 hidden group-hover:block z-50 w-[13rem] pl-2">
+                <div className="absolute left-full top-0 hidden group-hover:block z-50 min-w-[16rem] w-max max-w-[20rem] pl-2">
                     <div className="rounded-xl bg-white dark:bg-slate-900 p-2 shadow-2xl border border-slate-200 dark:border-white/10">
                         <div className="mb-2 px-3 pt-2 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                             {title}

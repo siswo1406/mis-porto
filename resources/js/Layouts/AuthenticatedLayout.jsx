@@ -94,7 +94,7 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             <SidebarLink href="#" isFolded={false}>Accounting</SidebarLink>
                             <SidebarLink href="#" isFolded={false}>Finance</SidebarLink>
-                            <SidebarLink href={route('tax.portal')} active={route().current('tax.*')} isFolded={false}>Tax</SidebarLink>
+                            <SidebarLink href={route('tax.laporan-masa.index')} active={route().current('tax.*')} isFolded={false}>Tax</SidebarLink>
                         </SidebarDropdown>
 
                         <SidebarDropdown 
@@ -107,28 +107,6 @@ export default function AuthenticatedLayout({ header, children }) {
                             <SidebarLink href="#" isFolded={false}>Monitoring & Reporting</SidebarLink>
                             <SidebarLink href={route('qa.portal')} active={route().current('qa.*')} isFolded={false}>Quality Assurance</SidebarLink>
                             <SidebarLink href="#" isFolded={false}>SRM</SidebarLink>
-                        </SidebarDropdown>
-
-                        <SidebarDropdown 
-                            title="Technology" 
-                            isFolded={isFolded}
-                            onExpand={handleExpandSidebar}
-                            icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
-                        >
-                            <SidebarLink href="#" isFolded={false}>MIS Dashboard</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>IT Infrastructure</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>System Audit</SidebarLink>
-                        </SidebarDropdown>
-
-                        <SidebarDropdown 
-                            title="RPHU Operations" 
-                            isFolded={isFolded}
-                            onExpand={handleExpandSidebar}
-                            icon={<svg className="w-6 h-6 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
-                        >
-                            <SidebarLink href="#" isFolded={false}>Penerimaan Ayam Hidup</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Proses Pemotongan & Karkas</SidebarLink>
-                            <SidebarLink href="#" isFolded={false}>Cold Storage & Distribusi</SidebarLink>
                         </SidebarDropdown>
                         
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isFolded ? 'max-h-0 opacity-0 my-0 border-transparent' : 'max-h-[40px] opacity-100 mt-6 pt-6 border-t border-slate-200 dark:border-white/10 mb-2'}`}>

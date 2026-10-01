@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
         Route::post('laporan-masa/{laporan_masa}/pembetulan', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'storePembetulan'])->name('laporan-masa.pembetulan.store');
         Route::post('laporan-masa/pembetulan/{pembetulan}', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'updatePembetulan'])->name('laporan-masa.pembetulan.update');
         Route::delete('laporan-masa/pembetulan/{pembetulan}', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'destroyPembetulan'])->name('laporan-masa.pembetulan.destroy');
+        Route::post('stp', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'storeStp'])->name('stp.store');
+        Route::post('stp/{stp}', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'updateStp'])->name('stp.update');
+        Route::delete('stp/{stp}', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'destroyStp'])->name('stp.destroy');
+        Route::patch('stp/{stp}/uraian', [\App\Http\Controllers\Tax\LaporanMasaController::class, 'updateUraianStp'])->name('stp.uraian');
     });
 
     Route::prefix('master')->name('master.')->group(function () {

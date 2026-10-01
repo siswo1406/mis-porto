@@ -18,15 +18,15 @@ export default function Portal({ auth }) {
             menus: [
                 {
                     name: 'Laporan Masa',
-                    href: route('tax.laporan-masa.index'),
+                    href: route('tax.laporan-masa.index', { tab: 'laporan_masa' }),
                     description: 'PPh 21, 22, 23, 25, 29, Pasal 4 Ayat 2, PPN & Pembetulan',
                     isAvailable: true,
                 },
                 {
                     name: 'Surat Tagihan Pajak (STP)',
-                    href: '#',
+                    href: route('tax.laporan-masa.index', { tab: 'stp' }),
                     description: 'Daftar & rekapitulasi STP per Anak Perusahaan',
-                    isAvailable: false,
+                    isAvailable: true,
                 },
                 {
                     name: 'Laporan PPh Unifikasi',
@@ -48,15 +48,15 @@ export default function Portal({ auth }) {
             menus: [
                 {
                     name: 'Rekap Pajak per AP',
-                    href: '#',
+                    href: route('tax.laporan-masa.index', { tab: 'rekap_ap' }),
                     description: 'Rekap tahunan per unit AP & Export Excel',
-                    isAvailable: false,
+                    isAvailable: true,
                 },
                 {
                     name: 'Rekap Gabungan Pajak',
-                    href: '#',
+                    href: route('tax.laporan-masa.index', { tab: 'rekap_gabungan' }),
                     description: 'Konsolidasi data seluruh AP & Export Excel',
-                    isAvailable: false,
+                    isAvailable: true,
                 },
             ]
         },

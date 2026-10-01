@@ -21,7 +21,7 @@ flowchart TD
 | Layer | Nama Layer | Elemen di Aplikasi | Karakteristik & Fungsi | Contoh Real di MIS |
 | :--- | :--- | :--- | :--- | :--- |
 | **Layer 0** | **Root / Home** | Main MIS Dashboard | Halaman beranda utama tempat ringkasan eksekutif, widget global, dan navigasi awal. | `Beranda` (`/dashboard`) |
-| **Layer 1** | **Division / Department** | Dropdown Group di Sidebar | Pengelompokan divisi berstandar korporat modern (English + Akronim Industri). | **Operations**, **Human Capital**, **Finance, Accounting & Tax**, **Corporate Communication**, **Technology**, **RPHU Operations** |
+| **Layer 1** | **Division / Department** | Dropdown Group di Sidebar | Pengelompokan divisi berstandar korporat modern (English). | **Operations**, **Human Capital**, **Finance, Accounting & Tax**, **Corporate Communication** |
 | **Layer 2** | **Portal Hub / Modul** | **Link yang diklik di Sidebar** | Halaman hub katalog yang menampilkan kartu-kartu sub-modul dan metrik ringkas per domain. | **Tax** (`/tax`), **Quality Assurance** (`/qa`), **DOC**, **Pengguna** |
 | **Layer 3** | **Feature / Working Page** | Kartu / Menu di dalam Portal Hub | Halaman kerja operasional utama (Data Table, Filter, Pagination, Export/Import). | **Laporan Masa** (`/tax/laporan-masa`), **SOP QA**, **STP** |
 | **Layer 4** | **Sub-Action / Modals** | Dialog Modal / Drawer Form | Aksi kontekstual mendalam per baris data atau entri baru tanpa meninggalkan halaman. | **Modal Pembetulan**, **Modal Uraian**, **Form Add/Edit** |
@@ -33,7 +33,7 @@ flowchart TD
 
 ## 2. Standar Penamaan Divisi (Layer 1) & Pemetaan Modul
 
-Semua nama divisi di **Layer 1** menggunakan standar bahasa Inggris korporat (*Corporate English*) dengan mempertahankan akronim industri perunggasan lokal (**RPHU**):
+Semua nama divisi di **Layer 1** menggunakan standar bahasa Inggris korporat (*Corporate English*):
 
 ```text
 ├── Layer 0: Beranda (/dashboard)
@@ -52,15 +52,12 @@ Semua nama divisi di **Layer 1** menggunakan standar bahasa Inggris korporat (*C
 ├── Layer 1: Finance, Accounting & Tax
 │   ├── Layer 2: Accounting
 │   ├── Layer 2: Finance
-│   └── Layer 2: Tax (/tax) -> Portal Hub
-│       ├── Layer 3: Laporan Masa (/tax/laporan-masa)
-│       │   ├── Layer 4: Modal Tambah / Edit Laporan
-│       │   ├── Layer 4: Modal Riwayat Pembetulan SPT
-│       │   └── Layer 4: Modal Catatan Uraian
-│       ├── Layer 3: Surat Tagihan Pajak (STP)
-│       ├── Layer 3: Laporan PPh Unifikasi
-│       ├── Layer 3: Rekap Pajak per AP
-│       └── Layer 3: Rekap Gabungan Pajak
+│   └── Layer 2: Tax (/tax/laporan-masa) -> Direct ke Unified Workspace (4 Tabs)
+│       ├── Tab 1: Laporan Masa (SPT Masa PPh/PPN & Pembetulan)
+│       ├── Tab 2: Surat Tagihan Pajak (STP)
+│       ├── Tab 3: Rekap Pajak per AP (Breakdown 12 Bulan)
+│       ├── Tab 4: Rekap Gabungan Pajak (Matriks 14 AP Konsolidasi)
+│       └── [Hub Portal Tax] (/tax) tetap tersedia via breadcrumbs untuk modul masa depan (PPh Unifikasi & Master Penugasan)
 │
 ├── Layer 1: Corporate Communication
 │   ├── Layer 2: Monitoring & Reporting
@@ -69,16 +66,6 @@ Semua nama divisi di **Layer 1** menggunakan standar bahasa Inggris korporat (*C
 │       ├── Layer 3: Surat Edaran
 │       └── Layer 3: Log Dokumen (Menu Logdoc)
 │   └── Layer 2: SRM (Stakeholder Relationship Management)
-│
-├── Layer 1: Technology
-│   ├── Layer 2: MIS Dashboard
-│   ├── Layer 2: IT Infrastructure
-│   └── Layer 2: System Audit
-│
-├── Layer 1: RPHU Operations (Poultry Processing)
-│   ├── Layer 2: Penerimaan Ayam Hidup
-│   ├── Layer 2: Proses Pemotongan & Karkas
-│   └── Layer 2: Cold Storage & Distribusi
 │
 ├── Layer 1: Master Data
 │   └── Layer 3: Pengguna (/master/users) [Bypass Layer 2]

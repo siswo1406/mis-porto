@@ -31,6 +31,7 @@ $defaultEnvs = [
     'DB_DATABASE' => '/tmp/database.sqlite',
     'VIEW_COMPILED_PATH' => '/tmp/storage/framework/views',
     'SESSION_DRIVER' => 'cookie',
+    'SESSION_LIFETIME' => '120',
     'CACHE_STORE' => 'array',
     'CACHE_DRIVER' => 'array',
     'QUEUE_CONNECTION' => 'sync',

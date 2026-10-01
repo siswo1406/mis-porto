@@ -15,15 +15,15 @@ export default function SidebarLink({ href, children, active = false, isFolded =
                     {icon}
                 </div>
             )}
-            <span className={`overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out ${isFolded ? 'max-w-0 opacity-0 ml-0' : 'max-w-[220px] opacity-100 ml-3'}`}>
+            <span className={`overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out ${isFolded ? 'max-w-0 opacity-0 ml-0' : 'max-w-[240px] opacity-100 ml-3'}`}>
                 {children}
             </span>
 
             {/* Tooltip for Folded State */}
             {isFolded && (
-                <div className="absolute left-full top-0 hidden group-hover:block z-50 w-[13rem] pl-2">
+                <div className="absolute left-full top-0 hidden group-hover:block z-50 min-w-[14rem] w-max max-w-[20rem] pl-2">
                     <div className="rounded-xl bg-white dark:bg-slate-900 p-2 shadow-2xl border border-slate-200 dark:border-white/10">
-                        <div className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white transition-all duration-200">
+                        <div className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white transition-all duration-200 whitespace-nowrap">
                             {children}
                         </div>
                     </div>
